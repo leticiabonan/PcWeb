@@ -1,7 +1,7 @@
+body{
+    text-align: center;
+}
 div.container{
-    display: grid;
-    place-items: center;
-    width: 65%;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 button{
