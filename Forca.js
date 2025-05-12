@@ -14,6 +14,7 @@ function iniciarJogo()
     document.getElementById("tentativasRestantes").innerText = "Você ainda pode errar " + tentativasRestantes + " vezes.";
     document.getElementById("palavraExibida").innerText = palavraExibida.join(" ");
     document.getElementById("tentativaLetra").disabled = false;
+    document.getElementById("botaoChute").disabled = false;
     document.getElementById("botaoReiniciar").style.display = "none";
     atualizarTela();
 }
@@ -54,5 +55,6 @@ function atualizarTela()
 function fimJogo()
 {
     document.getElementById("tentativaLetra").disabled = true;
+    document.getElementById("botaoChute").disabled = true;
     document.getElementById("botaoReiniciar").style.display = "inline";
 }
