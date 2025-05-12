@@ -1,1 +1,14 @@
-
+*{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: large;
+    text-align: center;
+}
+button{
+    border-radius: 25px;
+}
+input{
+    width: 110px;
+}
+h1{
+    font-size: 30px;
+}
