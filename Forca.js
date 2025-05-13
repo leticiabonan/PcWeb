@@ -1,6 +1,7 @@
-let palavraSorteada = "";
+let palavraSorteada;
 let palavraExibida = [];
-let tentativasRestantes = 6;
+let letrasIncorretas = [];
+let tentativasRestantes;
 function iniciarJogo()
 {
     const palavras = [
@@ -11,10 +12,11 @@ function iniciarJogo()
     palavraSorteada = palavraSorteada.split("");
     palavraExibida = Array(palavraSorteada.length).fill("_");
     tentativasRestantes = 6;
+    letrasIncorretas = [];
     document.getElementById("tentativasRestantes").innerText = "Você ainda pode errar " + tentativasRestantes + " vezes.";
     document.getElementById("palavraExibida").innerText = palavraExibida.join(" ");
-    document.getElementById("tentativaLetra").disabled = false;
-    document.getElementById("botaoChute").disabled = false;
+    document.getElementById("tentativaLetra").style.display = "inline";
+    document.getElementById("botaoChute").style.display = "inline";
     document.getElementById("botaoReiniciar").style.display = "none";
     atualizarTela();
 }
@@ -22,39 +24,72 @@ function jogoForca()
 {
     let tentativaLetra = document.getElementById("tentativaLetra").value.toLowerCase();
     let acertou = false;
-    for(let i = 0; palavraSorteada.length > i; i++)
+    let alertCount = 1;
+    if(tentativaLetra.toUpperCase() == tentativaLetra)
     {
-        if(palavraSorteada[i] == tentativaLetra)
+        alert("O caractere digitado não é uma letra.");
+    }
+    else
+    {
+        for(let i = 0; palavraSorteada.length > i; i++)
         {
-            acertou = true;
-            palavraExibida[i] = tentativaLetra;
+            if(palavraSorteada[i] == tentativaLetra)
+            {
+                acertou = true;
+                if(!(palavraExibida[i] == tentativaLetra))
+                {
+                    palavraExibida[i] = tentativaLetra;
+                }
+                else if(palavraExibida.includes(tentativaLetra) && alertCount)
+                {
+                    alert("Essa letra já foi jogada!");
+                    alertCount--;
+                }
+            }
         }
-    }
-    if(!acertou)
-    {
-        tentativasRestantes--;
-    }
-    atualizarTela();
-    document.getElementById("tentativaLetra").value = "";
-    if(palavraExibida.join("") == palavraSorteada.join("") && tentativasRestantes > 0)
-    {
-        alert("Parabéns! Você ganhou!");
-        fimJogo();
-    }
-    if(tentativasRestantes == 0)
-    {
-        alert(`Você perdeu! A palavra era: ${palavraSorteada.join("")}`);
-        fimJogo();
+        if(!acertou)
+        {
+            if(!letrasIncorretas.includes(tentativaLetra))
+            {
+                tentativasRestantes--;
+                letrasIncorretas.push(tentativaLetra);
+            }
+            else if(letrasIncorretas.includes(tentativaLetra))
+            {
+                alert("Essa letra já foi jogada!");
+            }
+        }
+        alertCount = 1;
+        atualizarTela();
+        document.getElementById("tentativaLetra").value = "";
+        if(palavraExibida.join("") == palavraSorteada.join("") && tentativasRestantes > 0)
+        {
+            alert("Parabéns! Você ganhou!");
+            fimJogo();
+        }
+        if(tentativasRestantes == 0)
+        {
+            alert(`Você perdeu! A palavra era: ${palavraSorteada.join("")}`);
+            fimJogo();
+        }
     }
 }
 function atualizarTela()
 {
     document.getElementById("tentativasRestantes").innerText = "Você ainda pode errar " + tentativasRestantes + " vezes.";
     document.getElementById("palavraExibida").innerText = palavraExibida.join(" ");
+    if(letrasIncorretas.length)
+    {
+        document.getElementById("letrasIncorretas").innerText = "Letras incorretas: " + letrasIncorretas;
+    }
+    else 
+    {
+        document.getElementById("letrasIncorretas").innerText = "";
+    }
 }
 function fimJogo()
 {
-    document.getElementById("tentativaLetra").disabled = true;
-    document.getElementById("botaoChute").disabled = true;
+    document.getElementById("tentativaLetra").style.display = "none";
+    document.getElementById("botaoChute").style.display = "none";
     document.getElementById("botaoReiniciar").style.display = "inline";
 }
