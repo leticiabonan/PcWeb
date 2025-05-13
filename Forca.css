@@ -3,6 +3,9 @@
     font-size: large;
     text-align: center;
 }
+body{
+    background-color: lightblue;
+}
 button{
     border-radius: 25px;
 }
